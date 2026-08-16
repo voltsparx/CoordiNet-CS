@@ -1,0 +1,146 @@
+I am building a C# security assessment utility and local web demo framework that combines a modular CLI shell, an asynchronous HttpListener-based file server, template injection logic, tunnel provisioning, and a live location/metric dashboard. The project is currently in a transitional state: it compiles, the test suite passes, and core HTTP serving and command-driven module behavior are implemented, but the system is not yet a complete end-to-end operational exploit/demo flow. I need you to understand the current project as a functional prototype with a clear skeleton for production-like expansion.
+
+PROJECT ARCHITECTURE
+This project is organized into a small, layered application structure centered around an executable entry point and a modular console host:
+
+Program entry: Program.Main in the root namespace launches the app and catches fatal exceptions.
+CLI and host layer:
+ConsoleUI handles banner, prompts, status, and basic console formatting.
+CommandLine.Parse/PrintHelp handles startup flags such as template, port, tunnel, help, and banner skipping.
+CommandModuleRegistry manages module lookup and execution.
+IConsoleModule defines the standard interface for dynamic modules.
+InteractiveConsoleHost provides the interactive command loop, configuration state, help, load/run/stop flow, and direct command execution.
+DemoModule is the concrete module that spins up the demo lifecycle.
+CommandExecutionResult is the structured result object used by modules and the console.
+Core orchestration:
+Coordinator.RunAsync executes the main one-shot workflow: detect platform, prepare template, inject script/UI into HTML, save output, start web server, optionally start tunnel, save session snapshot.
+CoreHelper.ParseAndFormatLocationAsync is a console-driven metric formatter with ANSI purple/magenta dashboard output.
+SessionLogger.SaveAsync persists session metadata to JSON.
+File generation/injection:
+HtmlProcessor.InjectGeolocation injects a browser geolocation script and consent-driven UI into an HTML document before the closing body tag.
+FileInjectionUtility.InjectBeforeLocator injects raw text before a specified locator string while preserving encoding and handling larger files safely.
+TemplateInjector and GeneratedSite are present but empty, indicating planned future scaffolding rather than active implementation.
+HTTP serving:
+WebServer is the main local file server. It uses HttpListener with an asynchronous accept loop and Task.Run handling to serve concurrent requests.
+It supports static files, route mapping, a /log endpoint, and /api/ip-location.
+Routes.cs defines route metadata with RouteInfo and IsApiRoute, but the route system remains a basic support layer rather than a full routing engine.
+Tunnel logic:
+ITunnelProvider defines provider contract.
+NgrokProvider and CloudflareProvider implement actual tunnel startup logic.
+TunnelManager.StartAsync decides which provider to use.
+Geolocation and data model:
+IpGeolocation.GetLocationAsync resolves IP-to-location data.
+DeviceLocation and LocationResult model geolocation outputs.
+LocationComparer calculates coordinate distance.
+Platform detection:
+PlatformDetector.Detect and PlatformInfo provide environment detection.
+Dependencies:
+DependencyManager, DependencyManifest, BinaryVerifier, Downloader are present but not central to the active request flow and likely represent a dependency bootstrap strategy.
+FUNCTIONAL CORE
+The core data flow is intended to work like this:
+
+The HTML template or generated page is created using the default template or a custom file path.
+HtmlProcessor.InjectGeolocation takes HTML, injects a consent-driven geolocation script and helper UI, and appends that block before the closing body tag.
+WebServer serves the generated HTML from a local directory using HttpListener. It also supports route mapping via MapRoute, where a URL path like /it-check or /hr-portal resolves to a specific directory.
+The injected JavaScript executes in the browser. It queries /api/ip-location to retrieve coarse IP-derived location data, then uses navigator.geolocation if the user grants permission.
+The resulting browser coordinates, metadata, and triggering context are intended to be sent to a listener or logging endpoint.
+WebServer.HandleRequestAsync routes /api/ip-location to HandleIpLocation and /log to HandleLog.
+HandleIpLocation queries IpGeolocation.GetLocationAsync to get location data from the client remote IP address and serializes the result as JSON.
+HandleLog parses NameValueCollection query parameters and returns them as JSON, demonstrating the parsing model for incoming query strings.
+CoreHelper.ParseAndFormatLocationAsync formats the final parsed data into a purple/magenta ANSI dashboard. It takes clientIp, browserLat, and browserLon strings and prints:
+an estimated IP-based location metric block
+a precise hardware location block if browser coordinates are present
+a yellow warning if browser coordinates are omitted
+The tunnel layer is designed to expose the local application via ngrok or Cloudflare, so a remote client or external evaluator can access the generated page without exposing the local machine directly.
+The intended full data path is:
+HTML/JS payload -> browser execution -> outbound HTTP request -> tunnel -> local HttpListener -> WebServer request handlers -> IpGeolocation and query parsing -> CoreHelper dashboard formatting -> console output.
+This is the conceptual flow that the project is trying to implement. In the current state, it is partially realized but not fully connected into a complete end-to-end exploit scenario.
+
+COMPONENT CHECKLIST
+Active, implemented components and their current status:
+
+Program.Main — functional entry point.
+Coordinator.RunAsync — functional orchestration flow for generation and run.
+CommandLine.Parse — functional startup argument parser.
+CommandLine.PrintHelp — functional help output.
+ConsoleUI.ShowBanner, ShowMenu, Ask, Info, Success, Warning, Error, Separator — functional.
+IConsoleModule — functional contract for modules.
+CommandExecutionResult.CreateSuccess / CreateFailure — functional.
+CommandModuleRegistry.Register / GetModule / ExecuteCommand — functional.
+InteractiveConsoleHost.RunAsync / RunCommandLineAsync / ProcessCommand / ShowHelp / ListModules / LoadModule / Configure / RunModule / StopActiveModule / Exit / ExecuteDirect — functional interactive console host.
+DemoModule.Execute / Stop — functional demo module implementation.
+HtmlProcessor.InjectGeolocation — functional HTML injection method.
+FileInjectionUtility.InjectBeforeLocator / DetectEncoding — functional file injection utility with encoding detection and safe insertion.
+WebServer.StartAsync / StopAsync / HandleRequestAsync / HandleStaticFile / ResolveRouteDirectory / NormalizeRoute / IsWithinRoot / InjectTrackingPayload / HandleIpLocation / HandleLog / GetContentType — functional async HTTP server and route-aware serving.
+MapRoute — functional route-to-directory registration.
+Routes.RouteInfo / Routes.IsApiRoute — partially functional API route metadata helper.
+ITunnelProvider — functional provider contract.
+NgrokProvider.StartAsync / StopAsync / IsAvailable / ReadProcessOutputAsync / ExtractUrl — functional provider implementation if the external binary exists.
+CloudflareProvider.StartAsync / StopAsync / IsAvailable / ReadProcessOutputAsync / ExtractUrl — functional provider implementation if the external binary exists.
+TunnelManager.StartAsync — functional provider switch.
+PlatformDetector.Detect — functional platform detection.
+PlatformInfo — functional platform model.
+IpGeolocation.GetLocationAsync — functional IP-location request mechanism.
+DeviceLocation — functional model.
+LocationResult — functional model.
+LocationComparer.CalculateDistanceMeters / AreClose — functional distance logic.
+SessionLogger.SaveAsync — functional demo session persistence.
+DemoSession — functional session model.
+CoreHelper.ParseAndFormatLocationAsync — functional console metric formatter.
+Prompts.AskForInput — functional helper.
+Constants — present but not yet meaningfully populated or strongly used.
+TemplateInjector.cs — empty/stubbed placeholder.
+GeneratedSite.cs — empty/stubbed placeholder.
+DependencyManager, DependencyManifest, BinaryVerifier, Downloader — present but not clearly wired into the main active flow; likely support scaffolding rather than fully activated runtime logic.
+Missing or stubbed components:
+
+A fully connected browser-to-server telemetry pipeline that persists real browser geolocation and metadata results in a structured, persistent way.
+A production-quality route catalog beyond the simple MapRoute implementation.
+A final end-to-end harness that automatically binds the console metric formatter to actual incoming request data rather than manually invoked values.
+TemplateInjector and GeneratedSite are unimplemented placeholders.
+The project is not yet a fully autonomous “live assessment platform”; it is a working framework prototype with many of the core building blocks in place but not all flow connections completed.
+METRIC THEME
+The active console output theme is a stylized purple/magenta terminal dashboard built into CoreHelper.ParseAndFormatLocationAsync. The color palette is defined using ANSI escapes:
+
+Primary Accent: deep purple / magenta = \x1b[35m
+Secondary Accent: bright purple / pink = \x1b[95m
+Success Status: cyan / green = \x1b[36m
+Warning / Alert: yellow = \x1b[33m
+Reset: \x1b[0m
+The dashboard format is intentionally visual and designed to look like a telemetry block:
+
+header banner: “=== PROXIED METRIC STREAM ===”
+deep purple bordered data frame
+“Location Metric Type A (Estimated IP)” label
+IP address shown in white
+generated Google Maps query URL rendered in bright purple
+“Location Metric Type B (Accurate Hardware)” section in cyan when browser coordinates are available
+yellow warning indicator when browserLat and browserLon are missing: “[!] Precise hardware boundary coordinates omitted by client.”
+final deep purple footer border closes the block cleanly
+console is explicitly reset to default at the end of execution
+This is a strong terminal visualization layer, but it is currently a presentation shell rather than a fully integrated runtime telemetry dashboard fed by the actual browser and tunnel pipeline.
+
+CURRENT STATE & BLOCKERS
+The project is currently halted at the boundary between prototype functionality and full end-to-end operational behavior. The critical technical point is this:
+
+The application successfully builds and tests.
+The CLI host and async listener work.
+HTTP serving, route mapping, static file serving, IP geolocation, and query parsing all function in a basic way.
+The injection engine can modify HTML before serving it.
+The tunnel and platform detection layers exist and are wired to start external services when available.
+However, the project is not yet fully connected into a single completed exploitation/demo workflow in which:
+the browser script actually captures real geolocation and hardware metadata,
+those values are consistently relayed into the local listener,
+the route-specific template directories are populated and actively mapped in a real route catalog,
+the data is fed into a persistent, structured metric pipeline,
+a live end-to-end session is tracked through the tunnel and console without manual intervention.
+Immediate capabilities that need to be implemented next:
+
+A real browser payload lifecycle: handle consent, geolocation, metadata collection, and automated result forwarding.
+A robust route configuration model for /it-check, /hr-portal, or other templates.
+A full template directory registry with per-route content and injection rules.
+Persistent session logging of browser metrics, IP-derived data, and timestamp metadata.
+Stronger integration between incoming request data and CoreHelper.ParseAndFormatLocationAsync so the console dashboard reflects real data, not manually supplied values.
+External tunnel validation and startup behavior for real deployment environments.
+A final, fully connected workflow from generation to tunnel to browser to console metric stream.
+I need you to treat this project as a partially complete but promising C# prototype: a modular CLI and async HTTP server with browser telemetry injection and tunnel support, currently stable enough to compile and test, but still missing the final end-to-end live data path and production-style deployment wiring.
