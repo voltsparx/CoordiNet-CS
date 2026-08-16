@@ -1,0 +1,48 @@
+name: .NET Build and Test
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main, develop ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        dotnet-version: ['8.0.x', '10.0.x']
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+
+    - name: Restore dependencies
+      run: dotnet restore src/CoordiNet-CS.csproj
+
+    - name: Build
+      run: dotnet build src/CoordiNet-CS.csproj --configuration Release --no-restore -nologo
+
+    - name: Run tests
+      run: dotnet test tests/ --configuration Release --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx"
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results-${{ matrix.os }}-${{ matrix.dotnet-version }}
+        path: '**/test-results.trx'
+
+    - name: Publish test results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      if: always() && runner.os == 'Linux'
+      with:
+        files: '**/test-results.trx'
+        check_name: 'Test Results (${{ matrix.os }}, .NET ${{ matrix.dotnet-version }})'

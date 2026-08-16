@@ -1,0 +1,71 @@
+name: Build with Make
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main, develop ]
+
+jobs:
+  build-make:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Install Make (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        choco install make -y
+      shell: powershell
+
+    - name: Install Make (Ubuntu)
+      if: runner.os == 'Linux'
+      run: sudo apt-get update && sudo apt-get install -y build-essential
+
+    - name: Install Make (macOS)
+      if: runner.os == 'macOS'
+      run: |
+        if ! command -v make &> /dev/null; then
+          brew install make
+        fi
+
+    - name: Verify Make installation
+      run: make --version
+
+    - name: Clean Build
+      run: make clean
+
+    - name: Build Project
+      run: make
+
+    - name: Check Build Output
+      run: |
+        if [ -d "Application-Build" ]; then
+          echo "✓ Build output directory exists"
+          ls -la Application-Build/
+        else
+          echo "✗ Build output directory not found"
+          exit 1
+        fi
+      shell: bash
+
+    - name: Run Tests
+      run: dotnet test tests/ --configuration Release --verbosity normal
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: build-output-${{ matrix.os }}
+        path: Application-Build/
+        if-no-files-found: ignore
