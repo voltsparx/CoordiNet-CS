@@ -1,6 +1,6 @@
 <p align="center">
     # CoordiNet-CS
-    <img src="docs/deco/logo.png" width="300">
+    <img src="https://raw.githubusercontent.com/voltsparx/CoordiNet-CS/master/docs/deco/coordinet-cs-logo.png" width="300">
 </p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
