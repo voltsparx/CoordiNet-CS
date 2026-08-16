@@ -39,10 +39,10 @@ endif
 
 clean:
 ifeq ($(OS),Windows_NT)
-	@if exist "$(OUTPUT_DIR)" rmdir /s /q "$(OUTPUT_DIR)"
-	@if exist "src\bin" rmdir /s /q "src\bin"
-	@if exist "src\obj" rmdir /s /q "src\obj"
+	-cmd /c rmdir /s /q "Application-Build" 2>nul
+	-cmd /c rmdir /s /q "src\bin" 2>nul
+	-cmd /c rmdir /s /q "src\obj" 2>nul
 else
-	@rm -rf "$(OUTPUT_DIR)"
-	@rm -rf src/bin src/obj
+	-rm -rf "$(OUTPUT_DIR)" src/bin src/obj
 endif
+	@echo "✓ Clean complete"
