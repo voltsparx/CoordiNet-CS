@@ -2,6 +2,7 @@
 <p align="center">
     <img src="https://raw.githubusercontent.com/voltsparx/CoordiNet-CS/master/docs/deco/coordinet-cs-logo.png" width="300">
 </p>
+> Will fix this goofy ahh logo soon
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![.NET 8.0+](https://img.shields.io/badge/.NET-8.0+-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
