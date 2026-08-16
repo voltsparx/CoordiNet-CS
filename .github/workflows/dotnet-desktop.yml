@@ -28,13 +28,13 @@ jobs:
         dotnet-version: ${{ matrix.dotnet-version }}
 
     - name: Restore dependencies
-      run: dotnet restore src/CoordiNet-CS.csproj
+      run: dotnet restore src/CoordiNet-CS.csproj; dotnet restore tests/CoordiNet-CS.Tests/CoordiNet-CS.Tests.csproj
 
     - name: Build Desktop Application
       run: dotnet build src/CoordiNet-CS.csproj --configuration ${{ matrix.configuration }} --no-restore -nologo
 
     - name: Run Tests
-      run: dotnet test tests/CoordiNet-CS.Tests/CoordiNet-CS.Tests.csproj --configuration ${{ matrix.configuration }} --no-build --verbosity normal
+      run: dotnet test tests/CoordiNet-CS.Tests/CoordiNet-CS.Tests.csproj --configuration ${{ matrix.configuration }} --verbosity normal
 
     - name: Publish (Release builds only)
       if: matrix.configuration == 'Release'
