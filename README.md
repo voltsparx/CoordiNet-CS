@@ -1,4 +1,7 @@
-# CoordiNet-CS
+<p align="center">
+    # CoordiNet-CS
+    <img src="docs/deco/logo.png" width="300">
+</p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![.NET 8.0+](https://img.shields.io/badge/.NET-8.0+-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
