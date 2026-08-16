@@ -1,0 +1,30 @@
+# Lookups & Binary Staging Output Yards
+[Aa]pplication-[Bb]uild/
+[Bb]in/
+[Oo]bj/
+
+# Runtime Hidden Workspace & Session State
+.coordinet-cs-rc/
+
+# Configuration Cache & Active DB Holds
+*.db
+*.db-journal
+*.log
+config/local.json
+
+# IDE & Editor Metadata
+.vs/
+.idea/
+*.user
+*.suo
+
+# Native Compiled Artifacts
+*.pdb
+
+# Operating System Temporary Artifacts
+.DS_Store
+Thumbs.db
+
+# Preserve Source-Controlled Default Config
+!config/default.json
+

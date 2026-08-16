@@ -1,0 +1,13 @@
+# Normalize text files to LF in the repository
+* text=auto eol=lf
+
+# Shell scripts must use LF
+*.sh text eol=lf
+
+# C# source
+*.cs text eol=lf
+
+# Project/configuration files
+*.csproj text eol=lf
+*.json text eol=lf
+*.md text eol=lf
