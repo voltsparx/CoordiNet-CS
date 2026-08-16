@@ -114,6 +114,8 @@ public static class CommandLine
     {
         Console.WriteLine("Usage: ./coordinet-cs [options]");
         Console.WriteLine();
+        Console.WriteLine("CoordiNet-CS - Security Assessment Framework");
+        Console.WriteLine();
         Console.WriteLine("Examples:");
         Console.WriteLine("  ./coordinet-cs --command \"provisions-default\"");
         Console.WriteLine("  ./coordinet-cs --command \"mirror-local\"");

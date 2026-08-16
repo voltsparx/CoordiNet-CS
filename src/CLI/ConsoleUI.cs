@@ -6,10 +6,10 @@ public static class ConsoleUI
     {
         Console.Clear();
 
-        Console.WriteLine("==============================================");
-        Console.WriteLine("                 coordinet-cs");
+        Console.WriteLine("===============================================");
+        Console.WriteLine("              CoordiNet-CS");
         Console.WriteLine("      Consent-Based Location Extractor");
-        Console.WriteLine("==============================================");
+        Console.WriteLine("===============================================");
         Console.WriteLine();
     }
 

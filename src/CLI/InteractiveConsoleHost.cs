@@ -164,7 +164,7 @@ public sealed class InteractiveConsoleHost
             "  bundle-zip                 Bundle the current generated deployment into a ZIP",
             "  exit / quit                 Exit the console",
             "",
-            "Example:",
+            "Example (CoordiNet-CS):",
             "  ./coordinet-cs --command \"provisions-default\"",
             "  ./coordinet-cs --command \"mirror-local\"",
             "  ./coordinet-cs --command \"bundle-zip\"",
