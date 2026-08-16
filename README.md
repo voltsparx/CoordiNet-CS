@@ -59,6 +59,10 @@ All data is indexed by session ID, timestamp, and source IP for correlation and 
 
 ## Build & Compilation
 
+CoordiNet-CS supports multiple build methods optimized for different deployment scenarios.
+
+### Using Makefile (Recommended for Linux/macOS/Termux)
+
 ### Prerequisites
 
 #### Windows
