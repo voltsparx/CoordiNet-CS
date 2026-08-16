@@ -31,7 +31,7 @@ jobs:
       run: dotnet build src/CoordiNet-CS.csproj --configuration Release --no-restore -nologo
 
     - name: Run tests
-      run: dotnet test tests/ --configuration Release --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx"
+      run: dotnet test tests/CoordiNet-CS.Tests/CoordiNet-CS.Tests.csproj --configuration Release --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx"
 
     - name: Upload test results
       uses: actions/upload-artifact@v4

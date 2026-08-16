@@ -60,7 +60,7 @@ jobs:
       shell: bash
 
     - name: Run Tests
-      run: dotnet test tests/ --configuration Release --verbosity normal
+      run: dotnet test tests/CoordiNet-CS.Tests/CoordiNet-CS.Tests.csproj --configuration Release --verbosity normal
 
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
