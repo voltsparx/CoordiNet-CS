@@ -1,5 +1,5 @@
+# CoordiNet-CS
 <p align="center">
-    # CoordiNet-CS
     <img src="https://raw.githubusercontent.com/voltsparx/CoordiNet-CS/master/docs/deco/coordinet-cs-logo.png" width="300">
 </p>
 
