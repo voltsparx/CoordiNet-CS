@@ -2,7 +2,7 @@
 
 ## System Overview
 
-`coordinet-cs` is a modular, asynchronous C# framework for endpoint reconnaissance and telemetry aggregation. The architecture is organized into distinct, loosely-coupled subsystems that communicate through well-defined async interfaces.
+`CoordiNet-CS` is a modular, asynchronous C# framework for endpoint reconnaissance and telemetry aggregation. The architecture is organized into distinct, loosely-coupled subsystems that communicate through well-defined async interfaces.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -12,21 +12,21 @@
                          │
         ┌────────────────┼────────────────┐
         │                │                │
-   ┌────▼────┐    ┌──────▼──────┐   ┌────▼─────────┐
-   │ Startup │    │ Interactive │   │ Direct Command
-   │Bootstrap│    │Console Host │   │ Override
-   └────┬────┘    └──────┬──────┘   └────┬──────────┘
+   ┌────▼────┐    ┌──────▼──────┐    ┌────▼──────────┐
+   │ Startup │    │ Interactive │    │ Direct Command│
+   │Bootstrap│    │Console Host │    │ Override      │
+   └────┬────┘    └──────┬──────┘    └────┬──────────┘
         │                │                │
         └────────────────┼────────────────┘
                          │
-         ┌───────────────┼───────────────┐
-         │               │               │
-    ┌────▼─────┐  ┌──────▼──────┐  ┌────▼────────┐
-    │  CLI Cmd  │  │  Web Server │  │   Tunnels   │
-    │ Execution │  │  (HttpListener)  │ (Ngrok/CF) │
-    └────┬─────┘  └──────┬──────┘  └────┬────────┘
-         │                │               │
-         └────────────────┼───────────────┘
+         ┌───────────────┼─────────────────┐
+         │               │                 │
+    ┌────▼─────┐   ┌──────▼───────┐   ┌────▼────────┐
+    │  CLI Cmd │   │  Web Server  │   │   Tunnels   │
+    │ Execution│   │(HttpListener)│   │ (Ngrok/CF)  │
+    └────┬─────┘   └──────┬───────┘   └────┬────────┘
+         │                │                │
+         └────────────────┼────────────────┘
                           │
               ┌───────────┴────────────┐
               │                        │
@@ -41,7 +41,7 @@
                     │           │      │
                 ┌───▼────────┐ ┌▼──────▼─────┐
                 │  SQLite DB │ │   Workspace │
-                │ (Sessions) │ │ (.coordinet- │
+                │ (Sessions) │ │ (.coordinet-│
                 │            │ │  cs-rc/)    │
                 └────────────┘ └─────────────┘
 ```
