@@ -1,6 +1,6 @@
-# Contributing to coordinet-cs
+# Contributing to CoordiNet-CS
 
-Thank you for your interest in contributing to the `coordinet-cs` security assessment framework! This document provides guidelines for participating in the project.
+Thank you for your interest in contributing to the **CoordiNet-CS** security assessment framework! This document provides guidelines for participating in the project.
 
 ## Getting Started
 
@@ -10,11 +10,11 @@ Thank you for your interest in contributing to the `coordinet-cs` security asses
 # Fork the repository on GitHub (using the GitHub UI)
 
 # Clone your fork locally
-git clone https://github.com/YOUR_USERNAME/coordinet-cs.git
-cd coordinet-cs
+git clone https://github.com/YOUR_USERNAME/CoordiNet-CS.git
+cd CoordiNet-CS
 
 # Add upstream remote for easy syncing
-git remote add upstream https://github.com/voltsparx/coordinet-cs.git
+git remote add upstream https://github.com/voltsparx/CoordiNet-CS.git
 ```
 
 ### Set Up Development Environment

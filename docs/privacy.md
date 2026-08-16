@@ -2,7 +2,7 @@
 
 ## Data Collection Boundary
 
-`coordinet-cs` operates with a strict, well-defined boundary between **passive network telemetry** and **user-gated, permission-enforced precision location tracking**.
+**CoordiNet-CS** operates with a strict, well-defined boundary between **passive network telemetry** and **user-gated, permission-enforced precision location tracking**.
 
 Understanding this boundary is critical for authorized operators and essential for ethical compliance.
 

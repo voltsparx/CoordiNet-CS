@@ -20,8 +20,8 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/voltsparx/coordinet-cs.git
-cd coordinet-cs
+git clone https://github.com/voltsparx/CoordiNet-CS.git
+cd CoordiNet-CS
 
 # Restore dependencies
 dotnet restore src/CoordiNet-CS.csproj
@@ -33,7 +33,7 @@ dotnet build src/CoordiNet-CS.csproj -nologo
 ## Project Structure
 
 ```
-coordinet-cs/
+CoordiNet-CS/
 ├── src/
 │   ├── Program.cs                    # Entry point
 │   ├── RuntimeOptions.cs              # Command-line options

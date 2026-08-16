@@ -2,11 +2,11 @@
 
 ## Coordinated Vulnerability Disclosure (CVD)
 
-The `coordinet-cs` security assessment framework is a specialized reconnaissance tool. We take security very seriously and are committed to responsible vulnerability management.
+The **CoordiNet-CS** security assessment framework is a specialized reconnaissance tool. We take security very seriously and are committed to responsible vulnerability management.
 
 ### Reporting Security Vulnerabilities
 
-If you discover a security vulnerability, bug, operational bypass, or security-relevant issue in the `coordinet-cs` framework, please report it **privately and confidentially** to:
+If you discover a security vulnerability, bug, operational bypass, or security-relevant issue in the **CoordiNet-CS** framework, please report it **privately and confidentially** to:
 
 **Email:** voltsparx@gmail.com
 
