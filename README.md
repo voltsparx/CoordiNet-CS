@@ -1,5 +1,12 @@
 # CoordiNet-CS
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![.NET 8.0+](https://img.shields.io/badge/.NET-8.0+-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+[![C#](https://img.shields.io/badge/Language-C%23-239120?logo=csharp)](https://docs.microsoft.com/en-us/dotnet/csharp/)
+[![Platform: Windows | Linux | macOS | Android](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS%20%7C%20Android-0078D4)](docs/development.md)
+[![Security Assessment](https://img.shields.io/badge/Type-Security%20Assessment%20Framework-red)](SECURITY.md)
+[![GitHub Stars](https://img.shields.io/github/stars/voltsparx/CoordiNet-CS?style=social)](https://github.com/voltsparx/CoordiNet-CS)
+
 A high-performance, modular, cross-platform security assessment framework and endpoint telemetry dashboard built in C#. Engineered for precision device reconnaissance, network telemetry, and authorized penetration testing across ARM64 Linux (Android/Termux), x86/x64 Linux, Microsoft Windows, and Apple macOS architectures.
 
 ## Core Features
