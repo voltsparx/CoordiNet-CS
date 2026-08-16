@@ -33,6 +33,23 @@ jobs:
     - name: Build Desktop Application
       run: dotnet build src/CoordiNet-CS.csproj --configuration ${{ matrix.configuration }} --no-restore -nologo
 
+    - name: Build Test Project
+      run: dotnet build tests/CoordiNet-CS.Tests/CoordiNet-CS.Tests.csproj --configuration ${{ matrix.configuration }} --no-restore -nologo
+
+    - name: Verify Test DLL exists
+      run: |
+        $dllPath = "tests/CoordiNet-CS.Tests/bin/${{ matrix.configuration }}/net10.0/CoordiNet-CS.Tests.dll"
+        if (Test-Path $dllPath) {
+          Write-Host "✓ Test DLL found at $dllPath"
+          Get-Item $dllPath
+        } else {
+          Write-Host "✗ Test DLL NOT found at $dllPath"
+          Write-Host "Directory contents:"
+          Get-ChildItem -Path "tests/CoordiNet-CS.Tests/bin/${{ matrix.configuration }}" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName
+          exit 1
+        }
+      shell: pwsh
+
     - name: Run Tests
       run: dotnet test tests/CoordiNet-CS.Tests/CoordiNet-CS.Tests.csproj --configuration ${{ matrix.configuration }} --verbosity normal
 
