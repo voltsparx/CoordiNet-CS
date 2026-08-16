@@ -8,6 +8,11 @@ on:
     branches: [ master, main ]
   workflow_dispatch:
 
+permissions:
+  checks: write
+  pull-requests: write
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest

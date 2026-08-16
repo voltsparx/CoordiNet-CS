@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ master, main, develop ]
 
+permissions:
+  checks: write
+  pull-requests: write
+  contents: read
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -63,3 +68,8 @@ jobs:
       with:
         files: '**/test-results.trx'
         check_name: 'Test Results (${{ matrix.os }}, .NET ${{ matrix.dotnet-version }})'
+        comment_mode: 'always'
+        compare_to_earlier_commit: true
+        fail_on: 'test failures'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
